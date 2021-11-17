@@ -1,45 +1,23 @@
 const fs = require('fs');
+
+//Read local Json Data
 let fileContent = fs.readFileSync('./rawData.json',
             {encoding:'utf8', flag:'r'});
 
+//loop through array of objects to get desired output
 let output = JSON.parse(fileContent).data.map(item => 
     Object.assign({}, {
         "driverName":item.driver.name,
-        "vehicle": Object.entries(item.logMetaData.vehicles).map(vehicle => Object.assign({}, { "id" : vehicle.id , "name" : vehicle.name })),
+        "vehicles": (item.logMetaData.vehicles) ? item.logMetaData.vehicles.map(vehicle => Object.assign({}, { "id" : vehicle.id , "name" : vehicle.name })): [],
         "disctanceTravelled":item.distanceTraveled.driveDistanceMeters
 }));            
-
 output = {"data":output};
-console.log(output);
+console.log(JSON.stringify(output,null,2));
 
+//Create a new Json
+fs.writeFile('reqJson.json', JSON.stringify(output,null,2), function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+  });
 
-// const fs= require("fs");
-
-// const jsonReader = (filepath,callback) => { //function to read jsonData in local
-//     try{ //asynchronous JS
-//     fs.readFileSync(filepath,'utf-8',(error,fileData)=>{
-//         if(error) throw error;
-//              return JSON.parse(fileData); 
-//         });
-//     }
-//     catch (error){
-//         return callback && callback(error);
-//     }
-// };
-
-// jsonReader("./rawData.json",(error,data)=>{
-//     if (error){
-//         console.log(error);
-//     }
-//     else{
-//    //const keys = Object.keys(data.data[0].driver);//Another method
-//    const entries = Object.entries(data); //object.entries() ES8
-//    //console.log(entries);
-//    for (let [key,i] of Object.entries(data)) {
-//       console.log(`${key}: ${data.data[0].driver.name}`);
-//    }
-
-//    //const usersCollection = [].concat(...entries)
-//    //console.log(usersCollection)
-//     }
-// });
+  //desired output stored in reqJson.json !!Cheers!!
