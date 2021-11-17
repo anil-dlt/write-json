@@ -5,7 +5,7 @@ let fileContent = fs.readFileSync('./rawData.json',
 let output = JSON.parse(fileContent).data.map(item => 
     Object.assign({}, {
         "driverName":item.driver.name,
-        "vehicle": Object.entries(item.logMetaData.vehicles).map(vehicle => Object.assign({}, { "id" : vehicle.id , "name" : vehicle.name })),
+        "vehicle": item.logMetaData.vehicles.map(vehicle => Object.assign({}, { "id" : vehicle.id , "name" : vehicle.name })),
         "disctanceTravelled":item.distanceTraveled.driveDistanceMeters
 }));            
 
