@@ -12,12 +12,12 @@ let output = JSON.parse(fileContent).data.map(item =>
         "disctanceTravelled":item.distanceTraveled.driveDistanceMeters
 }));            
 output = {"data":output};
-console.log(JSON.stringify(output,null,2));
+// console.log(JSON.stringify(output,null,2));
 
 //Create a new Json
 fs.writeFile('reqJson.json', JSON.stringify(output,null,2), function (err) {
     if (err) throw err;
-    console.log('Saved!');
+    console.log('reqJson created!');
   });
 
   //desired output stored in reqJson.json !!Cheers!!
